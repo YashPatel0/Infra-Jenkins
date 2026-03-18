@@ -29,7 +29,7 @@ pipeline {
                         terraform apply -auto-approve
                     '''
                 }catch(err){
-                    echo "error occur"
+                    echo "error"
 
                     sh '''
                         terraform init
