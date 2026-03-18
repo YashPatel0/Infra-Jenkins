@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('PULL'){
+            steps{
+                git branch: 'main', url: 'https://github.com/YashPatel0/Infra-Jenkins.git'
+            }
+        }
+        stage ('Test'){
+            steps{
+                sh '''
+                    terraform init
+                    terraform plan
+                '''
+            }
+        }
+        stage('Approval'){
+            script {
+                    input message: 'Do you want to apply Terraform', ok: 'Proceed'
+            }
+        }
+        stage('Deploy'){
+            steps {
+                sh '''
+                    terraform apply -auto-approve
+                '''
+            }
+        }
+    }
+}
