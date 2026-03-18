@@ -16,25 +16,28 @@ pipeline {
             }
         }
         stage ('Approval'){
-            script {
-                timeout(time: 10, unit: 'MINUTES') {
-                    input message: 'Do you want to apply Terraform?', ok: 'Proceed'
+            steps{
+                script {
+                    timeout(time: 10, unit: 'MINUTES') {
+                        input message: 'Do you want to apply Terraform?', ok: 'Proceed'
+                    }
                 }
             }
         }
         stage ('Deploy'){
             steps {
-                try{
-                    sh '''
-                        terraform apply -auto-approve
-                    '''
-                }catch(err){
-                    echo "error"
+                script{
+                    try{
+                        sh '''
+                            terraform apply -auto-approve
+                        '''
+                    }catch(err){
+                        echo "error"
 
-                    sh '''
-                        terraform init
-                        terraform apply -auto-approve
-                    '''
+                        sh '''
+                            terraform init
+                            terraform apply -auto-approve
+                        '''
                 }
             }
         }
