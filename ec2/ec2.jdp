@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('PULL'){
+        stage ('PULL'){
             steps{
                 git branch: 'main', url: 'https://github.com/YashPatel0/Infra-Jenkins.git'
             }
@@ -15,14 +15,14 @@ pipeline {
                 '''
             }
         }
-        stage('Approval'){
+        stage ('Approval'){
             script {
                 timeout(time: 10, unit: 'MINUTES') {
                     input message: 'Do you want to apply Terraform?', ok: 'Proceed'
                 }
             }
         }
-        stage('Deploy'){
+        stage ('Deploy'){
             steps {
                 try{
                     sh '''
